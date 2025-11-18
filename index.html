@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenMind: 환경·심리·복지 분석 플랫폼</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Pretendard", sans-serif;
+    }body {
+  scroll-behavior: smooth;
+  background: #f6f8fa;
+}
+
+section {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.section1 {
+  background: linear-gradient(135deg, #c7e9ff, #e8f7ff);
+}
+
+.section2 {
+  background: linear-gradient(135deg, #fde2e4, #fff5f7);
+}
+
+.section3 {
+  background: linear-gradient(135deg, #e3ffe1, #f1fff0);
+}
+
+h1, h2 {
+  margin-bottom: 20px;
+  color: #3a3a3a;
+}
+
+p {
+  max-width: 600px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #8ecae6;
+  color: #fff;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background: #6bb9d6;
+}
+
+nav {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 999;
+}
+
+nav a {
+  text-decoration: none;
+  padding: 10px 16px;
+  background: #ffffffaa;
+  border-radius: 6px;
+  color: #333;
+  font-size: 14px;
+  backdrop-filter: blur(6px);
+  transition: 0.3s;
+}
+
+nav a:hover {
+  background: #ffffffdd;
+}
+
+.fade {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.8s ease-out;
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+  </style>
+</head>
+<body>  <nav>
+    <a href="#sec1">Home</a>
+    <a href="#sec2">환경·심리 분석</a>
+    <a href="#sec3">환경 복지</a>
+  </nav>  <section id="sec1" class="section1 fade">
+    <h1>GreenMind</h1>
+    <p>도시 환경과 심리, 그리고 복지를 하나로 연결한 AI 기반 생태 분석 플랫폼입니다.</p>
+    <a class="btn" href="#sec2">시작하기</a>
+  </section>  <section id="sec2" class="section2 fade">
+    <h2>환경·심리 연동 분석</h2>
+    <p>AI가 기온, 미세먼지, 소음 등의 환경 데이터를 활용해<br>현재의 심리적 스트레스 가능성을 안내합니다.</p>
+    <button class="btn" onclick="generateMessage()">오늘의 환경 심리 분석</button>
+    <p id="result" style="margin-top:20px; font-weight:600;"></p>
+  </section>  <section id="sec3" class="section3 fade">
+    <h2>환경 취약계층 지원</h2>
+    <p>취약계층이 환경 문제로 겪는 어려움을 완화하기 위한<br>복지 정보를 제공합니다.</p>
+    <p style="font-style:italic;">“환경은 모두를 위한 기본 권리입니다.”</p>
+  </section>  <script>
+    const options = {
+      threshold: 0.2
+    };
+
+    const observer = new IntersectionObserver
