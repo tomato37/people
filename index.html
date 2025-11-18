@@ -2,125 +2,128 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GreenMind: 환경·심리·복지 분석 플랫폼</title>
+  <title>Green Mind Care</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Pretendard", sans-serif;
-    }body {
-  scroll-behavior: smooth;
-  background: #f6f8fa;
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Pretendard", sans-serif; }
+    body { background: #f7f9f8; overflow-x: hidden; }/* 애니메이션 */
+.fade-enter { opacity: 0; transform: translateY(20px); }
+.fade-enter-active { opacity: 1; transform: translateY(0); transition: 0.8s ease; }
+
+header {
+  width: 100%; padding: 20px 40px; position: fixed; top: 0; left: 0;
+  display: flex; align-items: center; justify-content: space-between;
+  background: rgba(255,255,255,0.6); backdrop-filter: blur(10px);
+  border-bottom: 1px solid #e7ecef;
 }
+.logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; color: #5ca88f; }
+.logo img { width: 35px; }
+
+nav a { margin-left: 20px; text-decoration: none; color: #5d6d6f; font-weight: 500; }
+nav a:hover { color: #3f8a70; }
 
 section {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
+  width: 100vw; height: 100vh;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  padding: 0 8%;
+}
+
+.hero {
+  background: linear-gradient(#d9f5e5, #f7fefb);
   text-align: center;
 }
+.hero img { width: 280px; margin-bottom: 20px; }
+.hero h1 { font-size: 48px; color: #4c8d75; margin-bottom: 15px; }
+.hero p { font-size: 20px; color: #58776a; max-width: 700px; }
 
-.section1 {
-  background: linear-gradient(135deg, #c7e9ff, #e8f7ff);
-}
+.section-title { font-size: 36px; color: #4c8d75; margin-bottom: 20px; }
+.section-text { font-size: 18px; color: #58776a; max-width: 800px; line-height: 1.6; text-align: center; }
 
-.section2 {
-  background: linear-gradient(135deg, #fde2e4, #fff5f7);
+/* 설문 폼 */
+.survey-box {
+  background: #ffffff; padding: 40px; width: 70%; max-width: 700px;
+  border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
+.survey-box label { font-size: 18px; display: block; margin: 20px 0 10px; color: #4c8d75; }
+.survey-box input, .survey-box textarea, .survey-box select {
+  width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #cdd9cf;
+}
+.survey-box button {
+  margin-top: 25px; width: 100%; padding: 14px;
+  background: #7cc7a7; border: none; border-radius: 12px;
+  font-size: 18px; font-weight: 600; color: white; cursor: pointer;
+}
+.survey-box button:hover { background: #6ab493; }
 
-.section3 {
-  background: linear-gradient(135deg, #e3ffe1, #f1fff0);
-}
-
-h1, h2 {
-  margin-bottom: 20px;
-  color: #3a3a3a;
-}
-
-p {
-  max-width: 600px;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.btn {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  background: #8ecae6;
-  color: #fff;
-  font-size: 16px;
-  transition: 0.3s;
-}
-
-.btn:hover {
-  background: #6bb9d6;
-}
-
-nav {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
-  z-index: 999;
-}
-
-nav a {
-  text-decoration: none;
-  padding: 10px 16px;
-  background: #ffffffaa;
-  border-radius: 6px;
-  color: #333;
-  font-size: 14px;
-  backdrop-filter: blur(6px);
-  transition: 0.3s;
-}
-
-nav a:hover {
-  background: #ffffffdd;
-}
-
-.fade {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.8s ease-out;
-}
-
-.show {
-  opacity: 1;
-  transform: translateY(0);
-}
+/* 페이지 전환 효과 */
+.hidden-page { display: none; }
 
   </style>
 </head>
-<body>  <nav>
-    <a href="#sec1">Home</a>
-    <a href="#sec2">환경·심리 분석</a>
-    <a href="#sec3">환경 복지</a>
-  </nav>  <section id="sec1" class="section1 fade">
-    <h1>GreenMind</h1>
-    <p>도시 환경과 심리, 그리고 복지를 하나로 연결한 AI 기반 생태 분석 플랫폼입니다.</p>
-    <a class="btn" href="#sec2">시작하기</a>
-  </section>  <section id="sec2" class="section2 fade">
-    <h2>환경·심리 연동 분석</h2>
-    <p>AI가 기온, 미세먼지, 소음 등의 환경 데이터를 활용해<br>현재의 심리적 스트레스 가능성을 안내합니다.</p>
-    <button class="btn" onclick="generateMessage()">오늘의 환경 심리 분석</button>
-    <p id="result" style="margin-top:20px; font-weight:600;"></p>
-  </section>  <section id="sec3" class="section3 fade">
-    <h2>환경 취약계층 지원</h2>
-    <p>취약계층이 환경 문제로 겪는 어려움을 완화하기 위한<br>복지 정보를 제공합니다.</p>
-    <p style="font-style:italic;">“환경은 모두를 위한 기본 권리입니다.”</p>
-  </section>  <script>
-    const options = {
-      threshold: 0.2
-    };
+<body>  <header>
+    <div class="logo">
+      <img src="https://img.icons8.com/color/96/earth-planet.png" />
+      Green Mind Care
+    </div>
+    <nav>
+      <a href="#hero">홈</a>
+      <a href="#idea">문제의식</a>
+      <a href="#solution">해결 아이디어</a>
+      <a href="#survey">설문</a>
+    </nav>
+  </header>  <!-- 메인 히어로 섹션 -->  <section class="hero fade-enter" id="hero">
+    <img src="https://img.icons8.com/cotton/512/earth-planet.png" />
+    <h1>심리·사회복지 관점의 생태·환경 해결</h1>
+    <p>생태 환경 문제를 인간 행동, 지역사회, 복지 지원 구조 속에서 바라보고 심리학과 사회복지학 지식을 활용한 해결책을 제시합니다.</p>
+  </section>  <!-- 문제의식 -->  <section id="idea" class="fade-enter">
+    <h2 class="section-title">1. 문제의식</h2>
+    <p class="section-text">
+      현재 도시 환경에서는 미세먼지 증가, 기후 변화로 인한 심리적 스트레스 상승, 취약계층이 겪는 환경 불평등 문제가 함께 나타나고 있습니다.
+      이를 해결하는 것은 단순히 환경을 보호하는 수준을 넘어 시민 정신 건강 회복, 지역사회 복지 안정, 지속 가능한 사회 형성에 중요한 의미를 가집니다.
+    </p>
+  </section>  <!-- 해결 아이디어 -->  <section id="solution" class="fade-enter">
+    <h2 class="section-title">2. 핵심 아이디어</h2>
+    <p class="section-text">
+      심리학의 행동 개입 모델을 기반으로 하는 ‘그린 행동 유도 앱’과 사회복지의 지역사회 케어 모델을 결합하여,
+      시민이 스스로 환경 행동을 실천하고 지역 공동체와 연결되는 생태 복지 플랫폼을 제안합니다.
+    </p>
+  </section>  <!-- 설문 폼 -->  <section id="survey" class="fade-enter">
+    <h2 class="section-title">환경 인식 설문</h2><div class="survey-box">
+  <form id="surveyForm">
+    <label>이름</label>
+    <input type="text" required />
 
-    const observer = new IntersectionObserver
+    <label>현재 가장 심각하다고 느끼는 환경 문제는?</label>
+    <select required>
+      <option value="미세먼지">미세먼지</option>
+      <option value="기후변화">기후변화</option>
+      <option value="에너지 소비">에너지 과잉 소비</option>
+      <option value="플라스틱 폐기물">플라스틱 폐기물 증가</option>
+    </select>
+
+    <label>환경 문제 해결을 위해 본인이 할 수 있는 행동</label>
+    <textarea rows="4" required></textarea>
+
+    <button type="submit">제출하기</button>
+  </form>
+</div>
+
+  </section>  <!-- 제출 후 페이지 -->  <section id="submittedPage" class="hidden-page fade-enter">
+    <h2 class="section-title">제출 완료!</h2>
+    <p class="section-text">참여해 주셔서 감사합니다. 당신의 의견은 더 나은 환경 정책과 심리·복지 지원 모델 설계에 도움이 됩니다.</p>
+  </section>  <script>
+    // 페이지 로드 시 fade enter animation
+    document.querySelectorAll('section').forEach(sec => {
+      setTimeout(() => sec.classList.add("fade-enter-active"), 100);
+    });
+
+    // 설문 제출 기능 + 페이지 전환
+    document.getElementById("surveyForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      document.querySelector("#survey").style.display = "none";
+      const submitted = document.querySelector("#submittedPage");
+      submitted.style.display = "flex";
+      submitted.classList.add("fade-enter-active");
+    });
+  </script></body>
+</html>
