@@ -1,129 +1,412 @@
-<!DOCTYPE html><html lang="ko">
+<!doctype html>
+
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Green Mind Care</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>그린마인드 — 도시 환경·심리·복지 통합 플랫폼</title>
+  <meta name="description" content="그린마인드(Green Mind): 도시 환경·심리·복지 통합 플랫폼 데모 페이지" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Pretendard", sans-serif; }
-    body { background: #f7f9f8; overflow-x: hidden; }/* 애니메이션 */
-.fade-enter { opacity: 0; transform: translateY(20px); }
-.fade-enter-active { opacity: 1; transform: translateY(0); transition: 0.8s ease; }
+    :root{
+      --bg:#fbf9ff;
+      --card:#ffffff;
+      --accent:#9ad3bc; /* pastel mint */
+      --accent-2:#f7c6c7; /* pastel pink */
+      --muted:#6b6b6b;
+      --glass: rgba(255,255,255,0.7);
+      --maxw:1100px;
+      --radius:14px;
+      font-family: Inter, Apple SD Gothic Neo, "Noto Sans KR", system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }/* Reset */
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:linear-gradient(180deg,var(--bg),#f7fbf8);color:#1b1b1b}
+a{color:inherit}
 
-header {
-  width: 100%; padding: 20px 40px; position: fixed; top: 0; left: 0;
-  display: flex; align-items: center; justify-content: space-between;
-  background: rgba(255,255,255,0.6); backdrop-filter: blur(10px);
-  border-bottom: 1px solid #e7ecef;
+/* Layout */
+header{position:fixed;left:0;right:0;top:0;z-index:40;backdrop-filter:blur(6px);background:linear-gradient(90deg, rgba(255,255,255,0.6), rgba(255,255,255,0.35));border-bottom:1px solid rgba(0,0,0,0.04)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:16px;display:flex;align-items:center;gap:16px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo svg{width:46px;height:46px}
+.nav{margin-left:auto;display:flex;gap:12px;align-items:center}
+.nav button{background:transparent;border:1px solid transparent;padding:8px 12px;border-radius:10px;cursor:pointer}
+.nav button.primary{background:var(--accent);color:#fff;border-color:transparent}
+
+main{scroll-behavior:smooth}
+
+/* Fullscreen sections */
+section.hero, section.panel{min-height:100vh;padding:110px 20px 60px;display:flex;align-items:center}
+.hero{background:linear-gradient(135deg,#f5fff9 0%, #f0fbff 50%);}
+
+.hero-inner{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center}
+.hero-title{font-size:clamp(28px,4vw,44px);line-height:1.05;margin:0}
+.hero-sub{color:var(--muted);margin-top:12px}
+
+/* Card */
+.card{background:var(--card);box-shadow:0 8px 30px rgba(37,48,63,0.06);border-radius:var(--radius);padding:18px}
+
+/* Environment widget */
+.env-box{display:flex;flex-direction:column;gap:10px}
+.env-row{display:flex;justify-content:space-between;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px;border-radius:999px;font-weight:600}
+
+/* Stress alarm */
+.alarm{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px}
+.alarm.high{background:linear-gradient(90deg,#ffd6d6,#fff6f6);border:1px solid rgba(255,80,80,0.08)}
+.alarm.ok{background:linear-gradient(90deg,#eafaf1,#f7fffb)}
+
+/* Sections content */
+.panel{padding-top:120px}
+.panel-inner{max-width:var(--maxw);margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:start}
+
+h2{font-size:20px;margin:0 0 8px}
+p.lead{color:var(--muted);margin:0 0 16px}
+
+/* Map mockup */
+.map{height:420px;border-radius:12px;overflow:hidden;position:relative}
+.map svg{width:100%;height:100%;display:block}
+.map .popup{position:absolute;left:16px;bottom:16px;background:var(--glass);padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,0.04)}
+
+/* Tips & cards */
+.tips{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.tip{padding:16px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.8),#fff)}
+
+/* Survey */
+.survey{display:flex;flex-direction:column;gap:8px}
+.survey input[type=range]{width:100%}
+.survey textarea{min-height:90px;padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)}
+
+/* Animations and reveal */
+.reveal{opacity:0;transform:translateY(12px);transition:all 700ms cubic-bezier(.15,.9,.35,1)}
+.reveal.visible{opacity:1;transform:none}
+
+/* Footer */
+footer{padding:28px 20px;text-align:center;color:var(--muted)}
+
+/* Responsive */
+@media(max-width:920px){
+  .hero-inner,.panel-inner{grid-template-columns:1fr}
+  .map{height:300px}
+  .tips{grid-template-columns:1fr 1fr}
 }
-.logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 700; color: #5ca88f; }
-.logo img { width: 35px; }
-
-nav a { margin-left: 20px; text-decoration: none; color: #5d6d6f; font-weight: 500; }
-nav a:hover { color: #3f8a70; }
-
-section {
-  width: 100vw; height: 100vh;
-  display: flex; flex-direction: column; justify-content: center; align-items: center;
-  padding: 0 8%;
+@media(max-width:640px){
+  header .wrap{padding:12px}
+  .nav{display:none}
+  section.hero, section.panel{padding-top:90px}
+  .tips{grid-template-columns:1fr}
 }
-
-.hero {
-  background: linear-gradient(#d9f5e5, #f7fefb);
-  text-align: center;
-}
-.hero img { width: 280px; margin-bottom: 20px; }
-.hero h1 { font-size: 48px; color: #4c8d75; margin-bottom: 15px; }
-.hero p { font-size: 20px; color: #58776a; max-width: 700px; }
-
-.section-title { font-size: 36px; color: #4c8d75; margin-bottom: 20px; }
-.section-text { font-size: 18px; color: #58776a; max-width: 800px; line-height: 1.6; text-align: center; }
-
-/* 설문 폼 */
-.survey-box {
-  background: #ffffff; padding: 40px; width: 70%; max-width: 700px;
-  border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-}
-.survey-box label { font-size: 18px; display: block; margin: 20px 0 10px; color: #4c8d75; }
-.survey-box input, .survey-box textarea, .survey-box select {
-  width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #cdd9cf;
-}
-.survey-box button {
-  margin-top: 25px; width: 100%; padding: 14px;
-  background: #7cc7a7; border: none; border-radius: 12px;
-  font-size: 18px; font-weight: 600; color: white; cursor: pointer;
-}
-.survey-box button:hover { background: #6ab493; }
-
-/* 페이지 전환 효과 */
-.hidden-page { display: none; }
 
   </style>
 </head>
-<body>  <header>
-    <div class="logo">
-      <img src="https://img.icons8.com/color/96/earth-planet.png" />
-      Green Mind Care
-    </div>
-    <nav>
-      <a href="#hero">홈</a>
-      <a href="#idea">문제의식</a>
-      <a href="#solution">해결 아이디어</a>
-      <a href="#survey">설문</a>
-    </nav>
-  </header>  <!-- 메인 히어로 섹션 -->  <section class="hero fade-enter" id="hero">
-    <img src="https://img.icons8.com/cotton/512/earth-planet.png" />
-    <h1>심리·사회복지 관점의 생태·환경 해결</h1>
-    <p>생태 환경 문제를 인간 행동, 지역사회, 복지 지원 구조 속에서 바라보고 심리학과 사회복지학 지식을 활용한 해결책을 제시합니다.</p>
-  </section>  <!-- 문제의식 -->  <section id="idea" class="fade-enter">
-    <h2 class="section-title">1. 문제의식</h2>
-    <p class="section-text">
-      현재 도시 환경에서는 미세먼지 증가, 기후 변화로 인한 심리적 스트레스 상승, 취약계층이 겪는 환경 불평등 문제가 함께 나타나고 있습니다.
-      이를 해결하는 것은 단순히 환경을 보호하는 수준을 넘어 시민 정신 건강 회복, 지역사회 복지 안정, 지속 가능한 사회 형성에 중요한 의미를 가집니다.
-    </p>
-  </section>  <!-- 해결 아이디어 -->  <section id="solution" class="fade-enter">
-    <h2 class="section-title">2. 핵심 아이디어</h2>
-    <p class="section-text">
-      심리학의 행동 개입 모델을 기반으로 하는 ‘그린 행동 유도 앱’과 사회복지의 지역사회 케어 모델을 결합하여,
-      시민이 스스로 환경 행동을 실천하고 지역 공동체와 연결되는 생태 복지 플랫폼을 제안합니다.
-    </p>
-  </section>  <!-- 설문 폼 -->  <section id="survey" class="fade-enter">
-    <h2 class="section-title">환경 인식 설문</h2><div class="survey-box">
-  <form id="surveyForm">
-    <label>이름</label>
-    <input type="text" required />
-
-    <label>현재 가장 심각하다고 느끼는 환경 문제는?</label>
-    <select required>
-      <option value="미세먼지">미세먼지</option>
-      <option value="기후변화">기후변화</option>
-      <option value="에너지 소비">에너지 과잉 소비</option>
-      <option value="플라스틱 폐기물">플라스틱 폐기물 증가</option>
-    </select>
-
-    <label>환경 문제 해결을 위해 본인이 할 수 있는 행동</label>
-    <textarea rows="4" required></textarea>
-
-    <button type="submit">제출하기</button>
-  </form>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="logo" aria-hidden>
+        <!-- simple leaf + brain logo -->
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="그린마인드 로고">
+          <rect width="64" height="64" rx="12" fill="url(#g)"/>
+          <defs>
+            <linearGradient id="g" x1="0" x2="1">
+              <stop offset="0" stop-color="#dff8ef"/>
+              <stop offset="1" stop-color="#bdeedd"/>
+            </linearGradient>
+          </defs>
+          <path d="M20 38c2-6 10-10 18-6 6 3 8 10 6 14" stroke="#2c6f5b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="26" cy="22" r="4" fill="#9ad3bc" />
+        </svg>
+        <div>
+          <strong style="display:block">그린마인드</strong>
+          <small style="color:var(--muted)">Green Mind</small>
+        </div>
+      </div><nav class="nav">
+    <button id="btnAnalyze" class="primary">내 주변 환경 분석하기</button>
+  </nav>
 </div>
 
-  </section>  <!-- 제출 후 페이지 -->  <section id="submittedPage" class="hidden-page fade-enter">
-    <h2 class="section-title">제출 완료!</h2>
-    <p class="section-text">참여해 주셔서 감사합니다. 당신의 의견은 더 나은 환경 정책과 심리·복지 지원 모델 설계에 도움이 됩니다.</p>
-  </section>  <script>
-    // 페이지 로드 시 fade enter animation
-    document.querySelectorAll('section').forEach(sec => {
-      setTimeout(() => sec.classList.add("fade-enter-active"), 100);
+  </header>  <main>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <h1 class="hero-title">환경과 마음을 잇는 도시 플랫폼<br><small style="font-weight:600;color:var(--muted)">Green Mind — 환경·심리·복지 통합 데모</small></h1>
+          <p class="hero-sub">오늘의 환경 지수와 심리적 스트레스 경보를 한눈에 확인하고, 지역 복지 지원이 필요한 곳을 쉽게 찾을 수 있습니다.</p><div class="card" style="margin-top:18px">
+        <div class="env-box">
+          <div class="env-row">
+            <div>
+              <div style="font-size:13px;color:var(--muted)">오늘의 지수</div>
+              <div style="font-weight:700;font-size:20px">미세먼지: <span id="pm25">-</span> · 기온: <span id="temp">-</span>°C</div>
+            </div>
+            <div>
+              <span class="badge" style="background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff">실시간</span>
+            </div>
+          </div>
+
+          <div id="alarmBox" class="alarm ok" role="status" aria-live="polite">
+            <div style="font-weight:700">심리적 스트레스 경보: <span id="stressText">정상</span></div>
+            <div style="margin-left:auto;font-size:13px;color:var(--muted)">업데이트: <span id="updatedAt">-</span></div>
+          </div>
+
+          <div style="display:flex;gap:8px;align-items:center">
+            <button id="btnSimulate">데이터 새로고침</button>
+            <button id="btnOpenSurvey">간단 설문 참여</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;color:var(--muted);font-size:13px">"환경은 단순한 배경이 아니라, 우리의 감정과 행동을 결정하는 심리적 공간입니다."</div>
+    </div>
+
+    <div class="card">
+      <!-- Illustration / quick status -->
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="font-weight:700">오늘의 권장 행동</div>
+        <div id="adviceText">주변 환경 데이터를 받아오는 중입니다.</div>
+        <div style="height:12px"></div>
+        <div style="font-size:13px;color:var(--muted)">위치 접근이 허용되면 더 정확한 권장사항을 제공합니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 1: Environment-Psychology -->
+<section id="analysis" class="panel">
+  <div class="panel-inner">
+    <div>
+      <h2>환경 — 심리 연동 분석</h2>
+      <p class="lead">AI가 위치 기반 환경 데이터를 분석해 사용자에게 맞춤형 심리안내를 제공합니다.</p>
+
+      <div class="card reveal" id="analysisCard">
+        <div style="display:flex;gap:18px;align-items:center">
+          <div style="flex:1">
+            <h3 style="margin:0 0 6px">오늘의 요약</h3>
+            <p id="analysisSummary" style="margin:0;color:var(--muted)">-</p>
+          </div>
+          <div style="width:120px;text-align:center">
+            <div style="font-weight:700;font-size:20px" id="score">--</div>
+            <div style="font-size:12px;color:var(--muted)">환경·심리지수</div>
+          </div>
+        </div>
+
+        <hr style="margin:12px 0;border:none;border-top:1px solid rgba(0,0,0,0.04)"/>
+        <div style="display:flex;gap:12px;align-items:center">
+          <div style="flex:1">
+            <strong>권장 활동</strong>
+            <ul id="actions" style="margin:6px 0 0 18px;color:var(--muted)"></ul>
+          </div>
+          <div style="width:220px">
+            <small style="color:var(--muted)">환경심리학 적용 예시</small>
+            <div style="margin-top:6px;color:var(--muted);font-size:13px">주의 회복 이론에 따라 20-30분 녹지 휴식 권장</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <aside>
+      <div class="card reveal">
+        <div style="font-weight:700">심리 팁</div>
+        <div style="margin-top:8px;color:var(--muted)">환경 스트레스를 줄이는 5가지</div>
+        <div class="tips" style="margin-top:12px">
+          <div class="tip">짧은 실내 휴식(20분)</div>
+          <div class="tip">녹지에서 가벼운 호흡</div>
+          <div class="tip">동네 커뮤니티 참여</div>
+        </div>
+      </div>
+
+      <div style="height:12px"></div>
+      <div class="card reveal">
+        <div style="font-weight:700">설문 참여</div>
+        <div style="margin-top:8px" class="survey">
+          <label>최근 일주일 스트레스 수준: <span id="rangeVal">3</span>/10</label>
+          <input type="range" min="0" max="10" value="3" id="range" />
+          <label>코멘트</label>
+          <textarea id="comment" placeholder="간단한 상황을 적어주세요 (선택)"></textarea>
+          <div style="display:flex;gap:8px;margin-top:8px"><button id="sendSurvey">보내기</button><button id="closeSurvey">닫기</button></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- Section 2: Vulnerable Map -->
+<section id="mapSection" class="panel" aria-label="환경 취약계층 지도">
+  <div class="panel-inner">
+    <div>
+      <h2>환경 취약계층 지도</h2>
+      <p class="lead">지역별 환경 위험도와 취약계층 분포를 시각화한 예시 맵 — 데모용입니다.</p>
+
+      <div class="map card reveal" id="demoMap">
+        <!-- simple mock map using SVG rectangles as regions -->
+        <svg viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="취약지역 지도">
+          <rect x="10" y="10" width="180" height="140" rx="8" fill="#e6f9f0" stroke="#cdeee0" data-name="A" data-risk="low" />
+          <rect x="205" y="20" width="180" height="140" rx="8" fill="#fff4e9" stroke="#f0dcc9" data-name="B" data-risk="medium" />
+          <rect x="400" y="12" width="180" height="140" rx="8" fill="#fff0f0" stroke="#f5d3d3" data-name="C" data-risk="high" />
+
+          <rect x="10" y="170" width="280" height="170" rx="8" fill="#eef7ff" stroke="#d6eafc" data-name="D" data-risk="medium" />
+          <rect x="305" y="170" width="275" height="170" rx="8" fill="#f8fff5" stroke="#e6f6e9" data-name="E" data-risk="low" />
+
+          <text x="30" y="40" font-size="16" fill="#1b1b1b">A 지역</text>
+          <text x="230" y="40" font-size="16" fill="#1b1b1b">B 지역</text>
+          <text x="420" y="40" font-size="16" fill="#1b1b1b">C 지역</text>
+        </svg>
+        <div class="popup" id="mapPopup">지역 정보를 확인하려면 영역 위로 마우스를 올려보세요.</div>
+      </div>
+
+    </div>
+
+    <aside>
+      <div class="card reveal">
+        <div style="font-weight:700">복지 연결</div>
+        <div style="margin-top:8px;color:var(--muted)">폭염 쉼터, 무료 급수소, 이동 복지 서비스 예시를 표시합니다.</div>
+        <ul style="margin-top:8px;color:var(--muted)" id="welfareList"></ul>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- Section 3: Education & Campaigns -->
+<section id="edu" class="panel">
+  <div class="panel-inner">
+    <div>
+      <h2>교육 자료 · 캠페인</h2>
+      <p class="lead">지역 주민과 학생을 위한 환경 스트레스 완화 교육 자료 및 참여 캠페인 예시</p>
+
+      <div class="card reveal">
+        <h3>환경 스트레스 줄이는 5가지 심리 팁</h3>
+        <ol style="color:var(--muted)">
+          <li>짧은 주의 회복 휴식(녹지에서 20분)</li>
+          <li>실내 공기질 관리(환기 및 식물)</li>
+          <li>지역 커뮤니티와의 정기적 교류</li>
+          <li>심호흡·마음챙김 실습</li>
+          <li>이웃과 약속 잡아 함께 산책하기</li>
+        </ol>
+        <div style="margin-top:12px;display:flex;gap:8px"><button id="btnCampaign">캠페인 참여하기</button><button id="btnResource">자료 다운로드</button></div>
+      </div>
+
+    </div>
+
+    <aside>
+      <div class="card reveal">
+        <div style="font-weight:700">프로젝트 취지</div>
+        <p style="color:var(--muted)">환경과 심리의 연동을 통해 복지 정책의 우선순위를 데이터 기반으로 제시합니다.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+  </main>  <footer>
+    © 그린마인드 · Demo — 환경·심리·복지 통합 플랫폼
+  </footer>  <script>
+    /* -- Utility / Mock data and interactions -- */
+    function fmtDate(d){return d.toLocaleString();}
+
+    function rand(min,max){return Math.floor(Math.random()*(max-min+1))+min}
+
+    function updateEnv(){
+      // Mock environment readings
+      const pm = rand(10,120);
+      const temp = rand(15,36);
+      document.getElementById('pm25').textContent = pm + ' μg/m³';
+      document.getElementById('temp').textContent = temp;
+      document.getElementById('updatedAt').textContent = fmtDate(new Date());
+
+      // simple heuristic stress level
+      let stress='정상';
+      let score = 80 - Math.round(pm/120*40) - Math.round((temp-20)/16*20);
+      if(pm>75 || temp>32) { stress='주의'; }
+      if(pm>100 || temp>34) { stress='높음'; }
+
+      document.getElementById('stressText').textContent = stress;
+      const alarm = document.getElementById('alarmBox');
+      alarm.className = 'alarm ' + (stress==='정상'?'ok':stress==='주의'?'':'high');
+
+      // Advice text
+      const advice = document.getElementById('adviceText');
+      if(pm>100) advice.textContent='미세먼지 농도가 높습니다. 외출 시 마스크 착용을 권장합니다.';
+      else if(temp>33) advice.textContent='폭염 주의: 수분을 자주 섭취하고 가능한 시원한 장소에서 쉬세요.';
+      else advice.textContent='환경 상태가 양호합니다. 짧은 야외 산책을 고려해보세요.';
+
+      // analysis summary
+      const summary = document.getElementById('analysisSummary');
+      summary.textContent = `미세먼지 ${pm} μg/m³, 기온 ${temp}°C — 현재 환경요인으로 인해 ${stress==='높음'?'심리적 회복 활동이 필요합니다.':'큰 위협은 없으나 주의가 필요할 수 있습니다.'}`;
+      document.getElementById('score').textContent = (score>100?100:score<0?0:score);
+
+      // actions
+      const acts = document.getElementById('actions'); acts.innerHTML='';
+      if(pm>75) { acts.innerHTML += '<li>실내 공기 질 개선(환기, 공기정화)</li>'; }
+      if(temp>32) { acts.innerHTML += '<li>폭염 쉼터 이용 권장</li>'; }
+      if(pm<=75 && temp<=32) { acts.innerHTML += '<li>녹지에서 주의 회복 활동(20~30분)</li>'; }
+    }
+
+    // initial
+    updateEnv();
+
+    document.getElementById('btnSimulate').addEventListener('click',()=>{ updateEnv(); });
+
+    // Map interactions
+    const rects = document.querySelectorAll('#demoMap svg rect');
+    const popup = document.getElementById('mapPopup');
+    const welfareList = document.getElementById('welfareList');
+    function showRegionInfo(el){
+      const name = el.dataset.name;
+      const risk = el.dataset.risk;
+      popup.innerHTML = `<strong>${name} 지역</strong><div style="font-size:13px;color:var(--muted)">위험도: ${risk}</div>`;
+      // mock welfare list
+      welfareList.innerHTML = '';
+      if(risk==='high'){
+        welfareList.innerHTML = '<li>임시 쉼터 2곳</li><li>무료 급수소 1곳</li>';
+      }else if(risk==='medium'){
+        welfareList.innerHTML = '<li>커뮤니티 센터 연계</li>';
+      }else{
+        welfareList.innerHTML = '<li>지역 보건소 점검</li>';
+      }
+    }
+    rects.forEach(r=>{
+      r.addEventListener('mouseenter',()=>showRegionInfo(r));
+      r.addEventListener('click',()=>alert(r.dataset.name + ' 지역 정보 (데모)'));
     });
 
-    // 설문 제출 기능 + 페이지 전환
-    document.getElementById("surveyForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      document.querySelector("#survey").style.display = "none";
-      const submitted = document.querySelector("#submittedPage");
-      submitted.style.display = "flex";
-      submitted.classList.add("fade-enter-active");
+    // Survey interactions
+    const range = document.getElementById('range');
+    const rangeVal = document.getElementById('rangeVal');
+    range.addEventListener('input',()=>rangeVal.textContent = range.value);
+    document.getElementById('sendSurvey').addEventListener('click',()=>{
+      const score = range.value; const comment = document.getElementById('comment').value;
+      alert('설문 제출 완료 — 응답: ' + score + '\n코멘트: ' + (comment||'없음'));
     });
+    document.getElementById('closeSurvey').addEventListener('click',()=>{ range.value=3; rangeVal.textContent=3; document.getElementById('comment').value=''; });
+
+    // Analyze button -> try geolocation then simulate analysis
+    document.getElementById('btnAnalyze').addEventListener('click',async ()=>{
+      if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(pos=>{
+          const lat = pos.coords.latitude.toFixed(4), lon = pos.coords.longitude.toFixed(4);
+          alert(`위치 수신: (${lat}, ${lon})\n데모 환경 분석을 실행합니다.`);
+          // Integrate location into summary (mock)
+          document.getElementById('analysisSummary').textContent += `\n위치: (${lat}, ${lon}) — 지역 데이터와 연동된 권장사항을 제공합니다.`;
+        },err=>{ alert('위치 정보를 허용하지 않아 일반 권장사항을 표시합니다.'); });
+      }else{ alert('이 브라우저는 위치 정보를 지원하지 않습니다.'); }
+    });
+
+    // Simple reveal on scroll
+    const obs = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+    },{threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+    // Page transition animation when clicking nav buttons
+    document.querySelectorAll('button[id^="btn"]').forEach(b=>{
+      b.addEventListener('click', (e)=>{
+        // small ripple-like animation on body
+        document.body.animate([{filter:'brightness(1)'},{filter:'brightness(.98)'}],{duration:260,fill:'forwards'});
+      });
+    });
+
+    // Accessibility: keyboard focus styles
+    (function(){
+      const style = document.createElement('style');
+      style.textContent = ':focus{outline:3px solid rgba(154,211,188,0.45);outline-offset:2px}';
+      document.head.appendChild(style);
+    })();
+
   </script></body>
 </html>
